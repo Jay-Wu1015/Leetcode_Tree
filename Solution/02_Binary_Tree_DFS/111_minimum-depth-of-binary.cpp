@@ -36,17 +36,23 @@ The number of nodes in the tree is in the range [1, 1000].
  */
 class Solution {
 public:
-    int sumOfLeftLeaves(TreeNode* root) {
+    int minDepth(TreeNode* root) {
+        //確認是否為葉子點
+        if( !root) return 0;
+        //若非葉子點,繼續往左右子樹走
+        int left = minDepth( root->left);
+        int right = minDepth( root -> right);
+
+
+        //比較左右兩個子樹有無下一個節點，避免只有單邊子樹有節點
+        if(!(root->left)|| !(root->right) ){
+            return right+left +1; 
+        }
+
+        //若兩邊子樹都有下一個節點，比較下方節點長度，回傳最短者+本身節點
+        return min(left, right)+1;
+
         
-        if(!root) return 0;
-
-      
-        int left= sumOfLeftLeaves(root->left);
-        int right=sumOfLeftLeaves(root->right);
-      
-        if( root->left && !root->left->left && !root->left->right)
-            left+= root->left->val; 
-
-        return left+right;
-
     }
+
+};
